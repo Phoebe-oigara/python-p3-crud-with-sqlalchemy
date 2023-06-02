@@ -94,6 +94,16 @@ if __name__ == '__main__':
         Student.grade == 11
     )
 
+# updating records of the database
+    session.query(Student).update({
+        Student.grade: Student.grade + 1
+    })
+
+    # for student in session.query(Student):
+    #     student.grade += 1
+
+    # session.commit()
+
     print([student for student in students])
     print(names)
     print(students_by_name)
@@ -103,4 +113,33 @@ if __name__ == '__main__':
 
     for record in query:
         print(record.name)
+
+    print([(student.name,
+        student.grade) for student in session.query(Student)])
+    
+    #calling the update method
+    print([(
+        student.name,
+        student.grade
+    ) for student in session.query(Student)])
+
+    # create session, student objects
+
+    query = session.query(
+        Student).filter(
+            Student.name == "Albert Einstein")        
+
+    # retrieve first matching record as object
+    albert_einstein = query.first()
+
+    # delete record
+    session.delete(albert_einstein)
+    session.commit()
+
+    # try to retrieve deleted record
+    albert_einstein = query.first()
+
+    print(albert_einstein)
+
+
    
