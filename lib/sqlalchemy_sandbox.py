@@ -71,7 +71,36 @@ if __name__ == '__main__':
     session.commit()
 
     students = session.query(Student)
+    names = [name for name in session.query(Student.name)]
+    students_by_name = [student for student in session.query(
+            Student.name).order_by(
+            Student.name)]
+    
+    students_by_grade_desc = [student for student in session.query(
+            Student.name, Student.grade).order_by(
+            desc(Student.grade))]
+    
+    oldest_student = [student for student in session.query(
+            Student.name, Student.birthday).order_by(
+            desc(Student.grade)).limit(1)]
+
+    oldest_student = session.query(
+            Student.name, Student.birthday).order_by(
+            desc(Student.grade)).first()
+    
+    student_count = session.query(func.count(Student.id)).first()
+
+    query = session.query (Student).filter(Student.name.like('%Alan%'),
+        Student.grade == 11
+    )
 
     print([student for student in students])
-    print(f"New student ID is {albert_einstein.id}.")
-    print(f"New student ID is {alan_turing.id}.")
+    print(names)
+    print(students_by_name)
+    print(students_by_grade_desc)
+    print(oldest_student)
+    print(student_count)
+
+    for record in query:
+        print(record.name)
+   
